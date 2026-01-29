@@ -11,13 +11,13 @@ export default await createHonoServer<AppBindings>({
 
       if (!session) {
         ctx.set("user", null);
-        ctx.set("session", null); 
+        ctx.set("session", null);
 
         return next();
       }
 
       ctx.set("user", session.user);
-      ctx.set("session", session.session); 
+      ctx.set("session", session.session);
 
       return next();
     });

@@ -1,4 +1,4 @@
-# React Router + Better Auth
+# WWWeb
 
 This project shows how to use [Better Auth](https://www.better-auth.com/) in [React Router v7](https://reactrouter.com/) project.
 

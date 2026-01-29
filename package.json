@@ -1,5 +1,8 @@
 {
-  "name": "better-auth-rr7-hono-server",
+  "name": "wwweb",
+  "description": "WWWeb - Full Stack Web App starter kit",
+  "author": "Franklin Shera",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "scripts": {
