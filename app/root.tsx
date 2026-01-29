@@ -46,11 +46,10 @@ export const middleware: Route.MiddlewareFunction[] = [
 ];
 
 export async function loader({ context }: Route.LoaderArgs) {
-  const { clientEnv, isAuthenticated, user, session } = context.get(appContext);
+  const { clientEnv, user, session } = context.get(appContext);
 
   return {
     clientEnv,
-    isAuthenticated,
     user,
     session,
   };
