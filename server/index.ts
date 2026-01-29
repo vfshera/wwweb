@@ -11,15 +11,13 @@ export default await createHonoServer<AppBindings>({
 
       if (!session) {
         ctx.set("user", null);
-        ctx.set("session", null);
-        ctx.set("isAuthenticated", false);
+        ctx.set("session", null); 
 
         return next();
       }
 
       ctx.set("user", session.user);
-      ctx.set("session", session.session);
-      ctx.set("isAuthenticated", true);
+      ctx.set("session", session.session); 
 
       return next();
     });
@@ -28,7 +26,6 @@ export default await createHonoServer<AppBindings>({
     return {
       user: ctx.get("user"),
       session: ctx.get("session"),
-      isAuthenticated: ctx.get("isAuthenticated"),
     };
   },
 });

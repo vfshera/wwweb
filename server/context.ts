@@ -15,7 +15,6 @@ export const getLoadContext: GetLoadContextFunction = async (ctx, { build }) => 
     clientEnv,
     user: ctx.get("user"),
     session: ctx.get("session"),
-    isAuthenticated: ctx.get("isAuthenticated"),
   });
 
   return context;

@@ -6,7 +6,7 @@ import type { HonoServerOptions } from "react-router-hono-server/node";
 export type SessionVariables = {
   user: Session["user"] | null;
   session: Session["session"] | null;
-  isAuthenticated: boolean;
+ 
 };
 
 export type AppBindings = {
