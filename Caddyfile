@@ -1,0 +1,8 @@
+wwweb.localhost {
+	reverse_proxy localhost:5173
+	log {
+		output stderr
+		format console
+		level DEBUG
+	}
+}
