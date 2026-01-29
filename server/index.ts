@@ -1,4 +1,8 @@
+import { RouterContextProvider } from "react-router";
 import { auth } from "~/.server/auth";
+import { db } from "~/.server/db";
+import { clientEnv, env } from "~/env.server";
+import { appContext } from "./context";
 import type { AppBindings } from "./types";
 import { createHonoServer } from "react-router-hono-server/node";
 
@@ -22,10 +26,18 @@ export default await createHonoServer<AppBindings>({
       return next();
     });
   },
-  getLoadContext(ctx) {
-    return {
+  getLoadContext(ctx, { build }) {
+    const context = new RouterContextProvider();
+
+    context.set(appContext, {
+      appVersion: env.PROD ? build.assets.version : "dev",
+      db,
+      env,
+      clientEnv,
       user: ctx.get("user"),
       session: ctx.get("session"),
-    };
+    });
+
+    return context;
   },
 });

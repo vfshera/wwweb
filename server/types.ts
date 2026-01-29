@@ -1,7 +1,6 @@
 import type { AuthSession } from "~/.server/auth";
 import type { DB } from "~/.server/db";
 import type { Env, PublicEnv } from "~/env.server";
-import type { HonoServerOptions } from "react-router-hono-server/node";
 
 export type SessionVariables = {
   user: AuthSession["user"] | null;
@@ -12,14 +11,7 @@ export type AppBindings = {
   Variables: SessionVariables;
 };
 
-export type GetLoadContextFunction = Exclude<
-  HonoServerOptions<AppBindings>["getLoadContext"],
-  undefined
->;
-
-export type GetLoadContextFunctionOptions = Parameters<GetLoadContextFunction>["1"];
-
-export type HonoContext = Parameters<GetLoadContextFunction>["0"];
+export type WebSocketContextType = object;
 
 export type BaseContext = SessionVariables & {
   appVersion: string;
