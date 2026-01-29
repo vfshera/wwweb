@@ -1,33 +1,23 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import { configs } from "typescript-eslint";
-import reactPlugin from "eslint-plugin-react";
-import reactHooks from "eslint-plugin-react-hooks";
-import eslintPluginImportX from "eslint-plugin-import-x";
+import stylistic from "@stylistic/eslint-plugin";
 import teslintParser from "@typescript-eslint/parser";
 import eslintConfigPrettier from "eslint-config-prettier";
-import process from "node:process";
+import reactPlugin from "eslint-plugin-react";
+import reactHooks from "eslint-plugin-react-hooks";
+import { defineConfig } from "eslint/config";
+import globals from "globals";
+import teslint from "typescript-eslint";
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
+export default defineConfig([
   {
-    ignores: [
-      "node_modules/",
-      ".react-router",
-      "!**/.server",
-      "!**/.client",
-      "!**/server",
-    ],
+    ignores: ["node_modules/", ".react-router", "!**/.server", "!**/.client", "!**/server"],
   },
-  pluginJs.configs.recommended,
-  ...configs.recommended,
-  eslintPluginImportX.flatConfigs.recommended,
-  eslintPluginImportX.flatConfigs.typescript,
+  teslint.configs.recommended,
   {
     files: ["**/*.{jsx,tsx,js,ts}"],
     ...reactPlugin.configs.flat.recommended,
     plugins: {
       "react-hooks": reactHooks,
+      "@stylistic": stylistic,
     },
     languageOptions: {
       ...reactPlugin.configs.flat.recommended.languageOptions,
@@ -40,7 +30,7 @@ export default [
         ...reactPlugin.configs.flat.recommended.languageOptions.parserOptions,
         ecmaVersion: "latest",
         sourceType: "module",
-        tsconfigRootDir: process.cwd(),
+        tsconfigRootDir: import.meta.dirname,
       },
     },
 
@@ -71,26 +61,30 @@ export default [
           destructuredArrayIgnorePattern: "^_",
         },
       ],
-      "import-x/newline-after-import": [
-        "warn",
-        { count: 1, considerComments: true },
-      ],
+
       "@typescript-eslint/consistent-type-imports": "warn",
-      "padding-line-between-statements": [
+      "@stylistic/quotes": ["warn", "double"],
+      "@stylistic/semi": ["warn", "always"],
+      "@stylistic/padding-line-between-statements": [
         "warn",
         { blankLine: "always", prev: "*", next: ["return", "export"] },
         {
           blankLine: "always",
-          prev: ["const", "let", "var", "block-like", "export"],
-          next: "*",
+          prev: ["const", "let", "var"],
+          next: ["const", "let", "var", "function", "type", "class", "block-like"],
         },
         {
           blankLine: "always",
-          prev: ["const", "let", "var", "block-like", "export"],
-          next: ["const", "let", "var", "block-like", "export"],
+          prev: "function",
+          next: ["const", "let", "var", "function", "type", "class", "block-like"],
+        },
+        {
+          blankLine: "always",
+          prev: ["type", "class", "block-like"],
+          next: ["const", "let", "var", "function", "type", "class", "block-like"],
         },
       ],
     },
   },
   eslintConfigPrettier,
-];
+]);
