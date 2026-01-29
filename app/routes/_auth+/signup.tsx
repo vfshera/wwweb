@@ -1,10 +1,10 @@
 import { Form, Link, useNavigate, useSearchParams } from "react-router";
-import { authClient } from "~/utils/auth.client";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { AUTHENTICATED_REDIRECT, REDIRECT_PATH_PARAM } from "~/constants";
 import { type SignupSchemaType, signupSchema } from "~/schemas/auth.schema";
 import { generateLinkWithRedirectTo } from "~/utils";
+import { authClient } from "~/utils/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

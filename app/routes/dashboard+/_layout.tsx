@@ -1,7 +1,6 @@
 import type { Route } from "./+types/_layout";
 import { Link, Outlet, useNavigate } from "react-router";
 import { requireAuth } from "~/.server/auth/utils";
-import { authClient } from "~/utils/auth.client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +20,7 @@ import {
   SidebarProvider,
 } from "~/components/ui/sidebar";
 import { SIGNOUT_REDIRECT } from "~/constants";
+import { authClient } from "~/utils/auth-client";
 import {
   Calendar,
   ChevronUp,
