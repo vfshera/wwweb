@@ -5,7 +5,7 @@ description: React performance optimization guidelines. Use when writing, review
 
 # React Best Practices
 
-Performance optimization and composition patterns for React components. Contains 33 rules across 6 categories focused on reducing re-renders, optimizing bundles, component composition, and avoiding common React pitfalls.
+Performance optimization and composition patterns for React components. Contains 39 rules across 6 categories focused on reducing re-renders, optimizing bundles, component composition, and avoiding common React pitfalls.
 
 ## When to Apply
 
@@ -223,6 +223,22 @@ useEffect(() => {
 }, []);
 ```
 
+#### rerender-defer-reads - @rules/rerender-defer-reads.md
+
+Don't subscribe to state only used in callbacks.
+
+```tsx
+// Bad: subscribes to all searchParams changes
+const searchParams = useSearchParams()
+const handleShare = () => shareChat(chatId, { ref: searchParams.get('ref') })
+
+// Good: reads on demand, no subscription
+const handleShare = () => {
+  const params = new URLSearchParams(window.location.search)
+  shareChat(chatId, { ref: params.get('ref') })
+}
+```
+
 ### Rendering Performance (MEDIUM)
 
 #### rendering-conditional-render - @rules/rendering-conditional-render.md
@@ -247,7 +263,7 @@ Extract static JSX outside components.
 
 ```tsx
 // Good: reuses same element, especially for large SVGs
-const skeleton = <div className="animate-pulse h-20 bg-gray-200" />;
+const skeleton = <div className="h-20 animate-pulse bg-gray-200" />;
 
 function Container({ loading }) {
   return loading ? skeleton : <Content />;
@@ -309,9 +325,7 @@ Suppress expected hydration mismatches.
 Render browser-only components with ClientOnly and a fallback.
 
 ```tsx
-<ClientOnly fallback={<Skeleton />}>
-  {() => <Map />}
-</ClientOnly>
+<ClientOnly fallback={<Skeleton />}>{() => <Map />}</ClientOnly>
 ```
 
 #### rendering-use-hydrated - @rules/rendering-use-hydrated.md
@@ -348,6 +362,22 @@ Place error boundaries at feature boundaries.
 </ErrorBoundary>
 ```
 
+#### rendering-activity - @rules/rendering-activity.md
+
+Use React's `<Activity>` component for show/hide (React 19+).
+
+```tsx
+import { Activity } from "react";
+
+function Dropdown({ isOpen }: Props) {
+  return (
+    <Activity mode={isOpen ? "visible" : "hidden"}>
+      <ExpensiveMenu />
+    </Activity>
+  );
+}
+```
+
 ### Client Patterns (MEDIUM)
 
 #### client-passive-event-listeners - @rules/client-passive-event-listeners.md
@@ -370,6 +400,40 @@ function saveConfig(config: Config) {
   try {
     localStorage.setItem(`config:${VERSION}`, JSON.stringify(config));
   } catch {} // Handle incognito/quota exceeded
+}
+```
+
+#### client-event-listeners - @rules/client-event-listeners.md
+
+Deduplicate global event listeners using SWR subscription.
+
+```tsx
+import useSWRSubscription from "swr/subscription";
+
+const keyCallbacks = new Map<string, Set<() => void>>();
+
+function useKeyboardShortcut(key: string, callback: () => void) {
+  useEffect(() => {
+    if (!keyCallbacks.has(key)) keyCallbacks.set(key, new Set());
+    keyCallbacks.get(key)!.add(callback);
+    return () => {
+      const set = keyCallbacks.get(key);
+      if (set) {
+        set.delete(callback);
+        if (set.size === 0) keyCallbacks.delete(key);
+      }
+    };
+  }, [key, callback]);
+
+  useSWRSubscription("global-keydown", () => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.metaKey && keyCallbacks.has(e.key)) {
+        keyCallbacks.get(e.key)!.forEach((cb) => cb());
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  });
 }
 ```
 
@@ -418,6 +482,73 @@ useEffect(function subscribeToOnlineStatus() {
     window.removeEventListener("online", handleOnline);
   };
 }, []);
+```
+
+#### hooks-event-handler-refs - @rules/hooks-event-handler-refs.md
+
+Store event handlers in refs for stable subscriptions.
+
+```tsx
+// Better: use useEffectEvent (React 19+)
+import { useEffectEvent } from "react";
+
+// Good: stable subscription
+function useWindowEvent(event: string, handler: (e) => void) {
+  const handlerRef = useRef(handler);
+  useEffect(() => {
+    handlerRef.current = handler;
+  }, [handler]);
+
+  useEffect(() => {
+    const listener = (e) => handlerRef.current(e);
+    window.addEventListener(event, listener);
+    return () => window.removeEventListener(event, listener);
+  }, [event]);
+}
+
+function useWindowEvent(event: string, handler: (e) => void) {
+  const onEvent = useEffectEvent(handler);
+  useEffect(() => {
+    window.addEventListener(event, onEvent);
+    return () => window.removeEventListener(event, onEvent);
+  }, [event]);
+}
+```
+
+#### hooks-init-once - @rules/hooks-init-once.md
+
+Initialize app once per load, not per component mount.
+
+```tsx
+// Good: once per app load
+let didInit = false;
+
+function Comp() {
+  useEffect(() => {
+    if (didInit) return;
+    didInit = true;
+    loadFromStorage();
+    checkAuthToken();
+  }, []);
+}
+```
+
+#### hooks-use-effect-event - @rules/hooks-use-effect-event.md
+
+Use `useEffectEvent` for stable callback refs (React 19+).
+
+```tsx
+import { useEffectEvent } from "react";
+
+function SearchInput({ onSearch }: { onSearch: (q: string) => void }) {
+  const [query, setQuery] = useState("");
+  const onSearchEvent = useEffectEvent(onSearch);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => onSearchEvent(query), 300);
+    return () => clearTimeout(timeout);
+  }, [query]);
+}
 ```
 
 ### Composition Patterns (HIGH)
