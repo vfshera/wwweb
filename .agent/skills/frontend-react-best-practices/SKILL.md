@@ -5,7 +5,7 @@ description: React performance optimization guidelines. Use when writing, review
 
 # React Best Practices
 
-Performance optimization and composition patterns for React components. Contains 39 rules across 6 categories focused on reducing re-renders, optimizing bundles, component composition, and avoiding common React pitfalls.
+Performance optimization and composition patterns for React components. Contains 40 rules across 7 categories focused on reducing re-renders, optimizing bundles, component composition, and avoiding common React pitfalls.
 
 ## When to Apply
 
@@ -668,3 +668,22 @@ function wrap(props: Button.Props) { ... }
 ```
 
 **Important:** Namespaces should only contain types, never runtime code.
+
+### React 19 APIs (MEDIUM)
+
+#### react19-no-forwardref - @rules/react19-no-forwardref.md
+
+In React 19, `ref` is now a regular prop and `use()` replaces `useContext()`.
+
+```tsx
+// Good: ref as a regular prop
+function ComposerInput({
+  ref,
+  ...props
+}: Props & { ref?: React.Ref<TextInput> }) {
+  return <TextInput ref={ref} {...props} />;
+}
+
+// Good: use() instead of useContext()
+const value = use(MyContext);
+```
