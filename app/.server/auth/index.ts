@@ -8,13 +8,17 @@ export const auth = betterAuth({
   basePath: "/api/auth",
   baseURL: env.BETTER_AUTH_URL,
   account: {
-    accountLinking: { enabled: true, trustedProviders: ["github"] },
+    accountLinking: { enabled: true, trustedProviders: ["github", "google"] },
   },
   emailAndPassword: { enabled: true },
   socialProviders: {
     github: {
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
+    },
+    google: {
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     },
   },
   database: drizzleAdapter(db, {

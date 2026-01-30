@@ -1,5 +1,5 @@
 import { Form, Link, useNavigate, useSearchParams } from "react-router";
-import { GithubIcon } from "~/components/icons";
+import { GithubIcon, GoogleIcon } from "~/components/icons";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { AUTHENTICATED_REDIRECT, REDIRECT_PATH_PARAM } from "~/constants";
@@ -41,9 +41,9 @@ export default function SignIn() {
     });
   };
 
-  const handleGithubSignIn = async () => {
+  const handleSignInWithSocial = async (provider: "github" | "google") => {
     await authClient.signIn.social({
-      provider: "github",
+      provider,
       callbackURL: redirectTo || AUTHENTICATED_REDIRECT,
       fetchOptions: {
         onSuccess: () => {
@@ -113,10 +113,19 @@ export default function SignIn() {
           disabled={isSubmitting}
           type="button"
           className="mt-6 flex w-full items-center justify-center gap-2 bg-black py-5 uppercase"
-          onClick={handleGithubSignIn}
+          onClick={() => handleSignInWithSocial("github")}
         >
           <GithubIcon className="size-8" />
           sign in with github
+        </Button>
+        <Button
+          disabled={isSubmitting}
+          type="button"
+          className="mt-6 flex w-full items-center justify-center gap-2 bg-black py-5 uppercase"
+          onClick={() => handleSignInWithSocial("google")}
+        >
+          <GoogleIcon className="size-8 text-white" />
+          sign in with google
         </Button>
         <p className="mt-4 text-center font-normal text-gray-600">
           Not registered?{" "}

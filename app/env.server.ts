@@ -55,7 +55,9 @@ const postgresUrlSchema = z
 
 const envSchema = z
   .object({
-    NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+    NODE_ENV: z
+      .enum(["development", "production", "test"])
+      .default("development"),
 
     PUBLIC_APP_URL: z.url(),
     DATABASE_URL: postgresUrlSchema,
@@ -63,6 +65,8 @@ const envSchema = z
     BETTER_AUTH_URL: z.url(),
     GITHUB_CLIENT_ID: z.string().min(1),
     GITHUB_CLIENT_SECRET: z.string().min(1),
+    GOOGLE_CLIENT_ID: z.string().min(1),
+    GOOGLE_CLIENT_SECRET: z.string().min(1),
   })
   .transform((env) => {
     return {
