@@ -1,17 +1,12 @@
 import type { Route } from "./+types/account";
-import { requireAuth } from "~/.server/auth/utils";
 
 export function meta() {
   return [{ title: "Account" }];
 }
 
-export async function loader({ request }: Route.LoaderArgs) {
-  const { user } = await requireAuth(request);
+export default function Account({ matches }: Route.ComponentProps) {
+  const user = matches[0].loaderData.user!;
 
-  return { user };
-}
-
-export default function Account({ loaderData: { user } }: Route.ComponentProps) {
   return (
     <div className="space-y-5 p-5">
       <h1 className="text-2xl font-semibold">Account</h1>

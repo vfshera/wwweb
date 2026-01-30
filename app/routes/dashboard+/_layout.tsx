@@ -1,6 +1,5 @@
 import type { Route } from "./+types/_layout";
 import { Link, Outlet, useNavigate } from "react-router";
-import { requireAuth } from "~/.server/auth/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,7 +19,7 @@ import {
   SidebarProvider,
 } from "~/components/ui/sidebar";
 import { SIGNOUT_REDIRECT } from "~/constants";
-import { authClient } from "~/utils/auth-client";
+import { authClient, signOut } from "~/utils/auth-client";
 import {
   Calendar,
   ChevronUp,
@@ -30,12 +29,6 @@ import {
   Settings,
   User2,
 } from "lucide-react";
-
-export async function loader({ request }: Route.LoaderArgs) {
-  const { user } = await requireAuth(request);
-
-  return { user };
-}
 
 // Menu items.
 const items = [
@@ -66,13 +59,13 @@ const items = [
   },
 ];
 
-export default function DashboardLayout({
-  loaderData: { user },
-}: Route.ComponentProps) {
+export default function DashboardLayout({ matches }: Route.ComponentProps) {
+  const user = matches[0].loaderData.user!;
+
   const navigate = useNavigate();
 
   async function handleLogout() {
-    await authClient.signOut({
+    await signOut({
       fetchOptions: {
         onSuccess: () => {
           navigate(SIGNOUT_REDIRECT);
