@@ -7,9 +7,16 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
 } from "react-router";
+import { redirect } from "react-router";
+import {
+  AUTHENTICATED_REDIRECT,
+  DASHBOARD_PATH,
+  SIGNIN_PATH,
+  SIGNUP_PATH,
+  UNAUTHENTICATED_REDIRECT,
+} from "~/constants";
 import stylesheet from "./app.css?url";
-import { rootMiddleware } from "./middleware/root.server";
-import { appContext } from "$/server/context";
+import { appContext, createAppContext } from "./context.server";
 import { Toaster } from "sonner";
 
 export const links: Route.LinksFunction = () => [
@@ -26,7 +33,28 @@ export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
 
-export const middleware: Route.MiddlewareFunction[] = rootMiddleware;
+export const middleware: Route.MiddlewareFunction[] = [
+  async function globalContext({ context, request }) {
+    const gc = await createAppContext(request);
+    context.set(appContext, gc);
+  },
+  async function authMiddleware({ context, request }) {
+    const url = new URL(request.url);
+
+    const { session } = context.get(appContext);
+
+    const isAuthPage =
+      url.pathname === SIGNIN_PATH || url.pathname === SIGNUP_PATH;
+
+    if (isAuthPage && session) {
+      throw redirect(AUTHENTICATED_REDIRECT);
+    }
+
+    if (url.pathname.startsWith(DASHBOARD_PATH) && !session) {
+      throw redirect(UNAUTHENTICATED_REDIRECT);
+    }
+  },
+];
 
 export async function loader({ context }: Route.LoaderArgs) {
   const { clientEnv, user, session } = context.get(appContext);
