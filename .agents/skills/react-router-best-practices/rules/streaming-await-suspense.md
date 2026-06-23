@@ -18,11 +18,11 @@ Use Await component with Suspense fallback for streamed data.
 ## Basic Pattern
 
 ```tsx
-import { Await, useLoaderData } from "react-router";
+import { Await } from "react-router";
 import { Suspense } from "react";
 
-export default function Component() {
-  const { criticalData, streamedData } = useLoaderData<typeof loader>();
+export default function Component({ loaderData }: Route.ComponentProps) {
+  const { criticalData, streamedData } = loaderData;
 
   return (
     <div>
@@ -53,9 +53,8 @@ export default function Component() {
 ## Multiple Streamed Values
 
 ```tsx
-export default function Component() {
-  const { profile, activities, recommendations } =
-    useLoaderData<typeof loader>();
+export default function Component({ loaderData }: Route.ComponentProps) {
+  const { profile, activities, recommendations } = loaderData;
 
   return (
     <div>

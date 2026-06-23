@@ -77,11 +77,11 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 The component usage with `<Await>` and `<Suspense>` stays the same:
 
 ```tsx
-import { Await, useLoaderData } from "react-router";
+import { Await } from "react-router";
 import { Suspense } from "react";
 
-export default function Component() {
-  const { profile, activities } = useLoaderData<typeof loader>();
+export default function Component({ loaderData }: Route.ComponentProps) {
+  const { profile, activities } = loaderData;
 
   return (
     <div>

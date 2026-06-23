@@ -185,14 +185,14 @@ function useSmartRevalidation({
 }
 
 // Usage
-export default function Dashboard() {
+export default function Dashboard({ loaderData }: Route.ComponentProps) {
   useSmartRevalidation({
     interval: 30000, // Poll every 30s
     onFocus: true, // Refresh on tab focus
     onReconnect: true, // Refresh when back online
   });
 
-  const { data } = useLoaderData<typeof loader>();
+  const { data } = loaderData;
   // ...
 }
 ```

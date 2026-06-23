@@ -81,8 +81,8 @@ export async function clientAction({
 No special handling needed in components:
 
 ```tsx
-export default function SearchPage() {
-  let { results } = useLoaderData<typeof loader>();
+export default function SearchPage({ loaderData }: Route.ComponentProps) {
+  let { results } = loaderData;
   let [searchParams, setSearchParams] = useSearchParams();
 
   return (

@@ -20,18 +20,18 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     <div className="grid h-screen items-center p-8 text-center">
       <div className="space-y-10">
         <div>
-          <h1 className="text-4xl">React Router 7 + Better Auth</h1>
+          <h1 className="text-4xl">React Router 8 + Better Auth</h1>
           <p className="text-lg">With Hono Server</p>
         </div>
         <div className="mx-auto flex max-w-[600px] justify-center gap-4">
           {loaderData.userName ? (
             <div className="flex flex-col gap-5">
-              <p className="rounded bg-secondary px-4 py-2.5 text-secondary-foreground">
+              <p className="bg-secondary text-secondary-foreground rounded px-4 py-2.5">
                 Welcome, {loaderData.userName}
               </p>
               <Link
                 to="/dashboard"
-                className="rounded bg-primary px-4 py-2.5 text-primary-foreground"
+                className="bg-primary text-primary-foreground rounded px-4 py-2.5"
               >
                 Go to Dashboard
               </Link>
@@ -39,12 +39,15 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           ) : (
             <>
               {" "}
-              <Link to="/signin" className="rounded bg-primary px-4 py-2.5 text-primary-foreground">
+              <Link
+                to="/signin"
+                className="bg-primary text-primary-foreground rounded px-4 py-2.5"
+              >
                 Sign In
               </Link>
               <Link
                 to="/signup"
-                className="rounded border border-black bg-secondary px-4 py-2.5 text-secondary-foreground"
+                className="bg-secondary text-secondary-foreground rounded border border-black px-4 py-2.5"
               >
                 Sign Up
               </Link>

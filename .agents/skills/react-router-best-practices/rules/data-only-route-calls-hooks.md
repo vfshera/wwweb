@@ -6,7 +6,7 @@ tags: [data-loading, components, architecture]
 
 # Only Route Component Calls Data Hooks
 
-Only the route's default export component should call `useLoaderData` and `useActionData`. Child components receive data via props.
+Only the route's default export component receives `loaderData` and `actionData` via `Route.ComponentProps`. Child components receive data via props.
 
 ## Why
 
@@ -30,10 +30,9 @@ export async function action({ request }: Route.ActionArgs) {
   return data({ errors: [] });
 }
 
-// Only the route component calls the hooks
-export default function Component() {
-  const { items } = useLoaderData<typeof loader>();
-  let actionData = useActionData<typeof action>();
+// Only the route component accesses loaderData and actionData from props
+export default function Component({ loaderData, actionData }: Route.ComponentProps) {
+  const { items } = loaderData;
 
   return (
     <div>
@@ -52,7 +51,7 @@ interface ItemListProps {
   items: Item[];
 }
 
-// Component receives data as props, doesn't call useLoaderData
+// Component receives data as props
 export function ItemList({ items }: ItemListProps) {
   return (
     <ul>
@@ -96,6 +95,6 @@ import { ItemList } from "./item-list";
 test("renders items", () => {
   let items = [{ id: "1", name: "Test" }];
   render(<ItemList items={items} />);
-  // No need to mock useLoaderData
+  // No need to mock loader data
 });
 ```

@@ -65,9 +65,8 @@ export default function Component() {
 
 ```tsx
 // Bad: Outlet context
-export default function Parent() {
-  let data = useLoaderData<typeof loader>();
-  return <Outlet context={data} />;
+export default function Parent({ loaderData }: Route.ComponentProps) {
+  return <Outlet context={loaderData} />;
 }
 
 function Child() {

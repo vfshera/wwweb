@@ -67,10 +67,9 @@ export async function action({ request }: Route.ActionArgs) {
 ## Component: Use defaultValue
 
 ```tsx
-import { Form, useActionData } from "react-router";
+import { Form } from "react-router";
 
-export default function SignupForm() {
-  let actionData = useActionData<typeof action>();
+export default function SignupForm({ actionData }: Route.ComponentProps) {
 
   return (
     <Form method="post">

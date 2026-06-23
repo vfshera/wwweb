@@ -30,8 +30,9 @@ export async function loader() {
 }
 
 export default function App({ loaderData }: Route.ComponentProps) {
+  let { honeypotInputProps } = loaderData;
   return (
-    <HoneypotProvider {...loaderData.honeypotInputProps}>
+    <HoneypotProvider {...honeypotInputProps}>
       <Outlet />
     </HoneypotProvider>
   );

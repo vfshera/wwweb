@@ -20,7 +20,6 @@ Name the default export `Component` in React Router route files.
 ```tsx
 // app/routes/_.users/route.tsx
 import { data } from "react-router";
-import { useLoaderData } from "react-router";
 
 export async function loader({ request }: Route.LoaderArgs) {
   // ...
@@ -32,9 +31,8 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 // Always name the default export "Component"
-export default function Component() {
-  let { users } = useLoaderData<typeof loader>();
-
+export default function Component({ loaderData }: Route.ComponentProps) {
+  let { users } = loaderData;
   return (
     <div>
       <h1>Users</h1>

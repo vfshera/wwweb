@@ -41,8 +41,8 @@ export async function action({ request }: Route.ActionArgs) {
   // Action that might fail
 }
 
-export default function ItemPage() {
-  const { item } = useLoaderData<typeof loader>();
+export default function ItemPage({ loaderData }: Route.ComponentProps) {
+  const { item } = loaderData;
   return <ItemDetails item={item} />;
 }
 

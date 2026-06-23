@@ -36,13 +36,12 @@ export default function Component() {
 ### With Form
 
 ```tsx
-import { Form, useActionData, useNavigation } from "react-router";
+import { Form, useNavigation } from "react-router";
 import { useEffect, useRef } from "react";
 
-export default function Component() {
+export default function Component({ actionData }: Route.ComponentProps) {
   let formRef = useRef<HTMLFormElement>(null);
   let navigation = useNavigation();
-  let actionData = useActionData<typeof action>();
 
   useEffect(
     function resetFormOnSuccess() {

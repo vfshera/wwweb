@@ -14,7 +14,7 @@ Reference these guidelines when:
 - Writing new React Router routes (loaders, actions)
 - Handling forms and mutations
 - Implementing streaming with Single Fetch
-- Organizing route files and colocating queries
+- Organizing route files and collocating queries
 - Setting up authentication patterns
 - Adding internationalization with `remix-i18next`
 - Adding SEO/meta tags
@@ -156,8 +156,8 @@ export async function loader({ request }: Route.LoaderArgs) {
   return data({ user });
 }
 
-export default function Component() {
-  const { user } = useLoaderData<typeof loader>();
+export default function Component({ loaderData }: Route.ComponentProps) {
+  const { user } = loaderData;
   return <div>{user.name}</div>;
 }
 ```
@@ -217,19 +217,18 @@ useEffect(() => {
 
 #### loader-typing - @rules/loader-typing.md
 
-Use proper TypeScript typing with Route.LoaderArgs.
+Use proper TypeScript typing with Route.LoaderArgs for loaders and Route.ComponentProps for access to loader data.
 
 ```tsx
-// Good: typed loader with useLoaderData
+// Good: typed loader with Route.ComponentProps
 import { data } from "react-router";
-import { useLoaderData } from "react-router";
 
 export async function loader({ request, params }: Route.LoaderArgs) {
   return data({ user: await getUser(params.id) });
 }
 
-export default function Component() {
-  const { user } = useLoaderData<typeof loader>();
+export default function Component({ loaderData }: Route.ComponentProps) {
+  const { user } = loaderData;
   return <div>{user.name}</div>;
 }
 ```
@@ -421,12 +420,12 @@ export async function loader({ request }: Route.LoaderArgs) {
 
 #### data-only-route-calls-hooks - @rules/data-only-route-calls-hooks.md
 
-Only route components call `useLoaderData`/`useActionData`. Children receive props.
+Only the route component receives `loaderData`/`actionData` via `Route.ComponentProps`. Children receive props.
 
 ```tsx
-// route.tsx - only place that calls useLoaderData
-export default function ItemsRoute() {
-  const { items } = useLoaderData<typeof loader>();
+// route.tsx - only place that receives loaderData
+export default function ItemsRoute({ loaderData }: Route.ComponentProps) {
+  const { items } = loaderData;
   return <ItemList items={items} />;
 }
 
@@ -717,10 +716,10 @@ Use Await with Suspense for streamed data.
 ```tsx
 // Good: Await with Suspense fallback
 import { Suspense } from "react";
-import { Await, useLoaderData } from "react-router";
+import { Await } from "react-router";
 
-export default function Component() {
-  const { critical, lazy } = useLoaderData<typeof loader>();
+export default function Component({ loaderData }: Route.ComponentProps) {
+  const { critical, lazy } = loaderData;
 
   return (
     <div>
@@ -1112,8 +1111,8 @@ export async function loader() { ... }
 export async function action() { ... }
 
 // Always name "Component"
-export default function Component() {
-  let { users } = useLoaderData<typeof loader>();
+export default function Component({ loaderData }: Route.ComponentProps) {
+  let { users } = loaderData;
   return <UserList users={users} />;
 }
 ```

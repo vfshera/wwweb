@@ -83,8 +83,7 @@ export async function clientAction({
 ### Form Component
 
 ```tsx
-export default function Component() {
-  let actionData = useActionData<typeof action>();
+export default function Component({ actionData }: Route.ComponentProps) {
 
   return (
     <Form method="post">

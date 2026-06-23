@@ -29,14 +29,15 @@ export async function loader({ params }: Route.LoaderArgs) {
   });
 }
 
-export const meta: Route.MetaFunction<typeof loader> = ({ data }) => {
-  if (!data) return [];
+export const meta: Route.MetaFunction<typeof loader> = ({ loaderData }) => {
+  if (!loaderData) return [];
 
+  let { title, description } = loaderData;
   return [
-    { title: data.title },
-    { name: "description", content: data.description },
-    { property: "og:title", content: data.title },
-    { property: "og:description", content: data.description },
+    { title },
+    { name: "description", content: description },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
   ];
 };
 ```
@@ -67,31 +68,33 @@ export async function loader({ request }: Route.LoaderArgs) {
   });
 }
 
-export const meta: Route.MetaFunction<typeof loader> = ({ data }) => data?.meta ?? [];
+export const meta: Route.MetaFunction<typeof loader> = ({ loaderData }) =>
+  loaderData?.meta ?? [];
 ```
 
 ## OpenGraph Tags
 
 ```tsx
-export const meta: Route.MetaFunction<typeof loader> = ({ data }) => {
-  if (!data) return [];
+export const meta: Route.MetaFunction<typeof loader> = ({ loaderData }) => {
+  if (!loaderData) return [];
 
+  let { title, description, imageUrl, canonicalUrl } = loaderData;
   return [
-    { title: data.title },
-    { name: "description", content: data.description },
+    { title },
+    { name: "description", content: description },
 
     // OpenGraph
     { property: "og:type", content: "website" },
-    { property: "og:title", content: data.title },
-    { property: "og:description", content: data.description },
-    { property: "og:image", content: data.imageUrl },
-    { property: "og:url", content: data.canonicalUrl },
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:image", content: imageUrl },
+    { property: "og:url", content: canonicalUrl },
 
     // Twitter
     { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:title", content: data.title },
-    { name: "twitter:description", content: data.description },
-    { name: "twitter:image", content: data.imageUrl },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: imageUrl },
   ];
 };
 ```
@@ -106,10 +109,10 @@ import type { loader as parentLoader } from "../_layout/route";
 export const meta: Route.MetaFunction<
   typeof loader,
   { "routes/_layout": typeof parentLoader }
-> = ({ data, matches }) => {
+> = ({ loaderData, matches }) => {
   let parentData = matches.find((m) => m.id === "routes/_layout")?.data;
 
-  return [{ title: `${data?.item.name} | ${parentData?.siteName}` }];
+  return [{ title: `${loaderData?.item.name} | ${parentData?.siteName}` }];
 };
 ```
 
@@ -118,15 +121,16 @@ export const meta: Route.MetaFunction<
 Always handle the case where data might be undefined (error states):
 
 ```tsx
-export const meta: Route.MetaFunction<typeof loader> = ({ data }) => {
+export const meta: Route.MetaFunction<typeof loader> = ({ loaderData }) => {
   // Return empty array or default meta when data is missing
-  if (!data) {
+  if (!loaderData) {
     return [{ title: "Error" }];
   }
 
+  let { title, description } = loaderData;
   return [
-    { title: data.title },
-    { name: "description", content: data.description },
+    { title },
+    { name: "description", content: description },
   ];
 };
 ```

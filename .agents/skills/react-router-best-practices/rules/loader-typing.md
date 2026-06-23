@@ -6,7 +6,7 @@ tags: [loader, typescript, typing]
 
 # Proper TypeScript Typing for Loaders
 
-Use Route.LoaderArgs and `typeof loader` with useLoaderData for type safety.
+Use Route.LoaderArgs for loaders and Route.ComponentProps for type-safe access to loader data.
 
 ## Why
 
@@ -20,9 +20,10 @@ export async function loader({ request, params }) {
   return data({ user: await getUser(params.id) });
 }
 
-export default function Component() {
-  let loaderData = useLoaderData(); // any type
-  return <div>{loaderData.user.name}</div>; // No type safety
+export default function Component({ loaderData }: Route.ComponentProps) {
+  let { user } = loaderData;
+  // loaderData is `any` without typing on the loader
+  return <div>{user.name}</div>; // No type safety
 }
 ```
 
@@ -30,14 +31,13 @@ export default function Component() {
 
 ```tsx
 import { data } from "react-router";
-import { useLoaderData } from "react-router";
 
 export async function loader({ request, params }: Route.LoaderArgs) {
   return data({ user: await getUser(params.id) });
 }
 
-export default function Component() {
-  const { user } = useLoaderData<typeof loader>();
+export default function Component({ loaderData }: Route.ComponentProps) {
+  const { user } = loaderData;
   return <div>{user.name}</div>; // Type-safe
 }
 ```
@@ -55,9 +55,9 @@ export async function loader({ request, params }: Route.LoaderArgs) {
   return data({ user });
 }
 
-export default function Component() {
-  const { user } = useLoaderData<typeof loader>();
-  // user is properly typed from the return type
+export default function Component({ loaderData }: Route.ComponentProps) {
+  const { user } = loaderData;
+  // user is properly typed from the loader return type
 }
 ```
 

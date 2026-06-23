@@ -125,7 +125,6 @@ routes/
 ```tsx
 import type { Route } from "./+types/index";
 // generated types if using them
-import { useLoaderData } from "react-router";
 import { ProjectNav } from "./+project-id/project-nav";
 import { getProject } from "./+project-id/queries.server";
 

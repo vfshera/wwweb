@@ -58,11 +58,10 @@ export async function loader({ request }: Route.LoaderArgs) {
   return data({ user });
 }
 
-export default function Component() {
-  const { user } = useLoaderData<typeof loader>();
+export default function Component({ loaderData }: Route.ComponentProps) {
+  const { user } = loaderData;
   return <div>{user.name}</div>;
 }
-```
 
 ## Parent-Child Route Data Sharing
 
@@ -85,8 +84,8 @@ export async function loader({ request }: Route.LoaderArgs) {
   return data({ user, settings });
 }
 
-export default function Component() {
-  const { user, settings } = useLoaderData<typeof loader>();
+export default function Component({ loaderData }: Route.ComponentProps) {
+  const { user, settings } = loaderData;
   return <SettingsForm user={user} settings={settings} />;
 }
 ```
@@ -138,8 +137,8 @@ export async function loader({ request }: Route.LoaderArgs) {
   return data({ user, accountBalance, recommendations });
 }
 
-export default function Component() {
-  const { balance, recommendations } = useLoaderData<typeof loader>();
+export default function Component({ loaderData }: Route.ComponentProps) {
+  const { balance, recommendations } = loaderData;
 
   return (
     <div>

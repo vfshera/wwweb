@@ -1,7 +1,7 @@
 import { createContext } from "react-router";
+import { auth } from "~/.server/auth";
 import { db } from "~/.server/db";
 import { clientEnv, env } from "~/env.server";
-import { auth } from "./.server/auth";
 
 export async function createAppContext(request: Request) {
   const session = await auth.api.getSession({
