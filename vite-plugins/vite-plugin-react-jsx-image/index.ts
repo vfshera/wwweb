@@ -1,16 +1,16 @@
-import fs from "node:fs";
-import path from "node:path";
 import {
   type BuiltinsWithOptionalParams as SVGOBuiltinPluginsWithOptionalParams,
   type Config as SVGOConfig,
   optimize,
 } from "svgo";
-import type { PluginOption } from "vite";
 import {
   type OutputFormat,
   type ProcessedImageMetadata,
   imagetools,
 } from "vite-imagetools";
+import type { PluginOption } from "vite";
+import fs from "node:fs";
+import path from "node:path";
 
 export interface ImageOptimizationOptions {
   jsxDirectives?: {
@@ -95,7 +95,7 @@ export function jsxImagePlugin(
       },
       defaultDirectives: (url) => {
         if (url.searchParams.has("jsx")) {
-          const { jsx, ...params } = Object.fromEntries(
+          const { jsx: _, ...params } = Object.fromEntries(
             url.searchParams.entries(),
           );
 

@@ -230,14 +230,14 @@ Don't subscribe to state only used in callbacks.
 
 ```tsx
 // Bad: subscribes to all searchParams changes
-const searchParams = useSearchParams()
-const handleShare = () => shareChat(chatId, { ref: searchParams.get('ref') })
+const searchParams = useSearchParams();
+const handleShare = () => shareChat(chatId, { ref: searchParams.get("ref") });
 
 // Good: reads on demand, no subscription
 const handleShare = () => {
-  const params = new URLSearchParams(window.location.search)
-  shareChat(chatId, { ref: params.get('ref') })
-}
+  const params = new URLSearchParams(window.location.search);
+  shareChat(chatId, { ref: params.get("ref") });
+};
 ```
 
 ### Rendering Performance (MEDIUM)

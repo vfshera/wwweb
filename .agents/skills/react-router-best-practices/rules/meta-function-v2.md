@@ -128,10 +128,7 @@ export const meta: Route.MetaFunction<typeof loader> = ({ loaderData }) => {
   }
 
   let { title, description } = loaderData;
-  return [
-    { title },
-    { name: "description", content: description },
-  ];
+  return [{ title }, { name: "description", content: description }];
 };
 ```
 

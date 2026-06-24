@@ -8,6 +8,7 @@ declare module "*.svg?jsx" {
 
 declare module "*?jsx" {
   import type { FC } from "react";
+
   const Component: FC<
     Omit<
       React.ImgHTMLAttributes<HTMLImageElement>,
@@ -26,6 +27,7 @@ declare module "*?jsx" {
 
 declare module "*&jsx" {
   import type { FC } from "react";
+
   const Component: FC<
     Omit<
       React.ImgHTMLAttributes<HTMLImageElement>,

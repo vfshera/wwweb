@@ -31,7 +31,10 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 // Only the route component accesses loaderData and actionData from props
-export default function Component({ loaderData, actionData }: Route.ComponentProps) {
+export default function Component({
+  loaderData,
+  actionData,
+}: Route.ComponentProps) {
   const { items } = loaderData;
 
   return (

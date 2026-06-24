@@ -1,4 +1,7 @@
 import { Form, Link, useNavigate, useSearchParams } from "react-router";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { GithubIcon, GoogleIcon } from "~/components/icons";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -6,9 +9,6 @@ import { AUTHENTICATED_REDIRECT, REDIRECT_PATH_PARAM } from "~/constants";
 import { generateLinkWithRedirectTo } from "~/utils";
 import { authClient } from "~/utils/auth-client";
 import { type LoginSchemaType, loginSchema } from "~/validations/auth.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 export function meta() {
   return [{ title: "Sign In" }];

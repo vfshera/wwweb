@@ -13,19 +13,19 @@
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `bun run dev` | Start dev server |
-| `bun run build` | Production build |
-| `bun run start` | Serve production build |
-| `bun run typecheck` | React Router typegen + `tsc` |
-| `bun run lint` | ESLint |
-| `bun run lint:fix` | ESLint with auto-fix |
-| `bun run format` | Prettier |
-| `bun run db:generate` | Generate Drizzle migrations |
-| `bun run db:migrate` | Run Drizzle migrations |
-| `bun run db:studio` | Open Drizzle Studio |
-| `bun run db:setup` | Generate + migrate |
+| Command               | Description                  |
+| --------------------- | ---------------------------- |
+| `bun run dev`         | Start dev server             |
+| `bun run build`       | Production build             |
+| `bun run start`       | Serve production build       |
+| `bun run typecheck`   | React Router typegen + `tsc` |
+| `bun run lint`        | ESLint                       |
+| `bun run lint:fix`    | ESLint with auto-fix         |
+| `bun run format`      | Prettier                     |
+| `bun run db:generate` | Generate Drizzle migrations  |
+| `bun run db:migrate`  | Run Drizzle migrations       |
+| `bun run db:studio`   | Open Drizzle Studio          |
+| `bun run db:setup`    | Generate + migrate           |
 
 ## Project Structure
 

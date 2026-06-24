@@ -1,7 +1,18 @@
-import type { DefaultOmit } from "../types";
-import { createdAtTimestamp, primaryKeyCuid2, updatedAtTimestamp } from "../utils";
 import { relations } from "drizzle-orm";
-import { boolean, index, pgTable, text, timestamp, unique } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  index,
+  pgTable,
+  text,
+  timestamp,
+  unique,
+} from "drizzle-orm/pg-core";
+import {
+  createdAtTimestamp,
+  primaryKeyCuid2,
+  updatedAtTimestamp,
+} from "../utils";
+import type { DefaultOmit } from "../types";
 
 export const users = pgTable("users", {
   id: primaryKeyCuid2,
@@ -102,4 +113,7 @@ export const verifications = pgTable("verifications", {
 
 export type Verification = typeof verifications.$inferSelect;
 
-export type InsertVerification = Omit<typeof verifications.$inferInsert, DefaultOmit>;
+export type InsertVerification = Omit<
+  typeof verifications.$inferInsert,
+  DefaultOmit
+>;

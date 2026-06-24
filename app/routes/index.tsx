@@ -25,12 +25,12 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         <div className="mx-auto flex max-w-[600px] justify-center gap-4">
           {loaderData.userName ? (
             <div className="flex flex-col gap-5">
-              <p className="bg-secondary text-secondary-foreground rounded px-4 py-2.5">
+              <p className="rounded bg-secondary px-4 py-2.5 text-secondary-foreground">
                 Welcome, {loaderData.userName}
               </p>
               <Link
                 to="/dashboard"
-                className="bg-primary text-primary-foreground rounded px-4 py-2.5"
+                className="rounded bg-primary px-4 py-2.5 text-primary-foreground"
               >
                 Go to Dashboard
               </Link>
@@ -40,13 +40,13 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               {" "}
               <Link
                 to="/signin"
-                className="bg-primary text-primary-foreground rounded px-4 py-2.5"
+                className="rounded bg-primary px-4 py-2.5 text-primary-foreground"
               >
                 Sign In
               </Link>
               <Link
                 to="/signup"
-                className="bg-secondary text-secondary-foreground rounded border border-black px-4 py-2.5"
+                className="rounded border border-black bg-secondary px-4 py-2.5 text-secondary-foreground"
               >
                 Sign Up
               </Link>

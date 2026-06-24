@@ -8,6 +8,9 @@ import {
   isRouteErrorResponse,
 } from "react-router";
 import { redirect } from "react-router";
+import { initLogger } from "evlog";
+import { evlog } from "evlog/react-router";
+import { Toaster } from "sonner";
 import {
   AUTHENTICATED_REDIRECT,
   DASHBOARD_PATH,
@@ -15,11 +18,8 @@ import {
   SIGNUP_PATH,
   UNAUTHENTICATED_REDIRECT,
 } from "~/constants";
-import stylesheet from "./app.css?url";
 import { appContext, createAppContext } from "./context.server";
-import { initLogger } from "evlog";
-import { evlog } from "evlog/react-router";
-import { Toaster } from "sonner";
+import stylesheet from "./app.css?url";
 
 initLogger({
   env: { service: "awwweb" },

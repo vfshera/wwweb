@@ -1,6 +1,15 @@
 import type { Route } from "./+types/_layout";
 import { Link, Outlet, useNavigate } from "react-router";
 import {
+  Calendar,
+  ChevronUp,
+  Home,
+  Inbox,
+  Search,
+  Settings,
+  User2,
+} from "lucide-react";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -19,16 +28,7 @@ import {
   SidebarProvider,
 } from "~/components/ui/sidebar";
 import { SIGNOUT_REDIRECT } from "~/constants";
-import { authClient, signOut } from "~/utils/auth-client";
-import {
-  Calendar,
-  ChevronUp,
-  Home,
-  Inbox,
-  Search,
-  Settings,
-  User2,
-} from "lucide-react";
+import { signOut } from "~/utils/auth-client";
 
 // Menu items.
 const items = [

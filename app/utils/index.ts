@@ -1,6 +1,6 @@
-import { REDIRECT_PATH_PARAM } from "../constants";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { REDIRECT_PATH_PARAM } from "../constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

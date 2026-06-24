@@ -51,7 +51,7 @@ function UserProfile() {
 
 ## Good: Fetching in Loaders
 
-```tsx
+````tsx
 // route.tsx
 export async function loader({ request }: Route.LoaderArgs) {
   let user = await getUser(request);
@@ -88,7 +88,7 @@ export default function Component({ loaderData }: Route.ComponentProps) {
   const { user, settings } = loaderData;
   return <SettingsForm user={user} settings={settings} />;
 }
-```
+````
 
 For UI-only access to parent data (no loader logic needed), use `useRouteLoaderData`:
 

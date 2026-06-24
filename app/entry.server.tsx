@@ -1,14 +1,10 @@
-import type {
-  AppLoadContext,
-  EntryContext,
-  RouterContextProvider,
-} from "react-router";
-import { ServerRouter } from "react-router";
 import { createReadableStreamFromReadable } from "@react-router/node";
+import type { EntryContext, RouterContextProvider } from "react-router";
+import { ServerRouter } from "react-router";
 import { isbot } from "isbot";
-import { PassThrough } from "node:stream";
-import type { RenderToPipeableStreamOptions } from "react-dom/server";
 import { renderToPipeableStream } from "react-dom/server";
+import type { RenderToPipeableStreamOptions } from "react-dom/server";
+import { PassThrough } from "node:stream";
 
 export const streamTimeout = 5_000;
 
@@ -19,7 +15,7 @@ export default function handleRequest(
   routerContext: EntryContext,
   loadContext: RouterContextProvider,
   // If you have middleware enabled:
-  // loadContext: RouterContextProvider
+  // LoadContext: RouterContextProvider
 ) {
   // https://httpwg.org/specs/rfc9110.html#HEAD
   if (request.method.toUpperCase() === "HEAD") {
@@ -42,7 +38,7 @@ export default function handleRequest(
         : "onShellReady";
 
     // Abort the rendering stream after the `streamTimeout` so it has time to
-    // flush down the rejected boundaries
+    // Flush down the rejected boundaries
     let timeoutId: ReturnType<typeof setTimeout> | undefined = setTimeout(
       () => abort(),
       streamTimeout + 1000,
@@ -81,8 +77,8 @@ export default function handleRequest(
         onError(error: unknown) {
           responseStatusCode = 500;
           // Log streaming rendering errors from inside the shell.  Don't log
-          // errors encountered during initial shell rendering since they'll
-          // reject and get logged in handleDocumentRequest.
+          // Errors encountered during initial shell rendering since they'll
+          // Reject and get logged in handleDocumentRequest.
           if (shellRendered) {
             console.error(error);
           }
