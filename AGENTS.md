@@ -62,3 +62,6 @@ drizzle/                # Migration files
 - `react-best-practices` — React component optimization
 - `react-router` — React Router framework reference (source of truth)
 - `react-router-best-practices` — React Router architecture patterns
+- `analyze-logs` — Analyze application logs from .evlog/logs/
+- `build-audit-logs` — Build audit trails using evlog
+- `review-logging-patterns` — Review and adopt evlog logging patterns

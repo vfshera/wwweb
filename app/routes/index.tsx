@@ -21,7 +21,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       <div className="space-y-10">
         <div>
           <h1 className="text-4xl">React Router 8 + Better Auth</h1>
-          <p className="text-lg">With Hono Server</p>
         </div>
         <div className="mx-auto flex max-w-[600px] justify-center gap-4">
           {loaderData.userName ? (

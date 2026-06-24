@@ -18,6 +18,12 @@ import {
 import stylesheet from "./app.css?url";
 import { appContext, createAppContext } from "./context.server";
 import { Toaster } from "sonner";
+import { evlog } from "evlog/react-router";
+import { initLogger } from "evlog";
+
+initLogger({
+  env: { service: "awwweb" },
+});
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -34,7 +40,8 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export const middleware: Route.MiddlewareFunction[] = [
-  async function globalContext({ context, request }) {
+  evlog(),
+  async function initGlobalContext({ context, request }) {
     const gc = await createAppContext(request);
     context.set(appContext, gc);
   },
