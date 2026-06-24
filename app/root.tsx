@@ -17,9 +17,9 @@ import {
 } from "~/constants";
 import stylesheet from "./app.css?url";
 import { appContext, createAppContext } from "./context.server";
-import { Toaster } from "sonner";
-import { evlog } from "evlog/react-router";
 import { initLogger } from "evlog";
+import { evlog } from "evlog/react-router";
+import { Toaster } from "sonner";
 
 initLogger({
   env: { service: "awwweb" },

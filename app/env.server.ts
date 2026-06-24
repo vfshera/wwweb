@@ -1,12 +1,11 @@
 import { config } from "dotenv";
 import { expand } from "dotenv-expand";
 import pc from "picocolors";
-import type { Simplify } from "type-fest";
 import * as z from "zod";
 
 expand(config());
 
-export const PUBLIC_ENV_PREFIX = "PUBLIC_";
+export const PUBLIC_ENV_PREFIX = "VITE_";
 
 /**
  * Load and validate environment variables using a Zod schema.
@@ -60,7 +59,7 @@ const envSchema = z
       .enum(["development", "production", "test"])
       .default("development"),
 
-    PUBLIC_APP_URL: z.url(),
+    VITE_APP_URL: z.url(),
     DATABASE_URL: postgresUrlSchema,
     BETTER_AUTH_SECRET: z.string().min(1),
     BETTER_AUTH_URL: z.url(),
@@ -80,17 +79,25 @@ const envSchema = z
 
 export type Env = z.infer<typeof envSchema>;
 
+/**
+ *  Vite public environment variables
+ */
+export type ViteEnv = {
+  [K in keyof Env as K extends `VITE_${string}` ? K : never]: Env[K];
+};
+
 export const env = loadEnv(envSchema);
 
 /**
  * Extract public env keys.
- * - the result type keys will be without the `PUBLIC_` prefix
+ * - the result type keys will be without the `VITE_` prefix
  */
-type PublicKeys<T> = {
-  [K in keyof T as K extends `PUBLIC_${infer Rest}` ? Rest : never]: T[K];
-};
 
-export type PublicEnv = Simplify<PublicKeys<Env>>;
+export type PublicEnv = {
+  [K in keyof ViteEnv as K extends `VITE_${infer Rest}`
+    ? Rest
+    : never]: ViteEnv[K];
+};
 
 function getPublicEnv() {
   const publicEnv: Record<string, unknown> = {};
